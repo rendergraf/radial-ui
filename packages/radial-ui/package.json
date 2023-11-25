@@ -17,6 +17,7 @@
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
+		"@radial-ui/palette": "workspace:*",
 		"@types/react": "^18.2.38",
 		"@types/react-dom": "^18.2.17",
 		"eslint": "^8.54.0",

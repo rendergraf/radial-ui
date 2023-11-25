@@ -93,6 +93,9 @@ importers:
 
   packages/radial-ui:
     devDependencies:
+      '@radial-ui/palette':
+        specifier: workspace:*
+        version: link:../radial-ui-palettes
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
