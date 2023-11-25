@@ -1,0 +1,10 @@
+{
+"compilerOptions": {
+	"moduleResolution": "node",
+	"strict": false,
+    "esModuleInterop": true,
+	"allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "build", "node_modules"]
+}
