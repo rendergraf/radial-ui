@@ -1,10 +1,11 @@
 {
 "compilerOptions": {
-	"moduleResolution": "node",
-	"strict": false,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-	"allowSyntheticDefaultImports": true
+    "resolveJsonModule": true,
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist", "build", "node_modules"]
+  "include": ["src/**/*", "src/index.js"],
+  "exclude": ["dist", "node_modules"]
 }

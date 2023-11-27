@@ -2,18 +2,20 @@ import * as fs from "fs";
 import tinycolor from "tinycolor2";
 
 const colorData = {
+  "orange": "#f8f8f8",
   "blue": "#FBFDFF",
   "gray": "#FBFDFF",
   "red": "#FFF7F7",
-  "green": "#FBFEFC",
-  "yellow": "#FDFDF9",
+	"green": "#FBFEFC",
+  "purple": "#FDF7FD"
 };
 
 function getColorInfo(hexColor) {
-  const rgbColor = tinycolor(hexColor).toRgb();
+  const rgbColor = tinycolor(hexColor).toRgb();  
   return {
     rgb: `${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}`,
-    rgbObject: rgbColor,
+	rgb8: tinycolor(hexColor).toHex8String(),
+	rgbObject: rgbColor,
   };
 }
 
@@ -35,21 +37,34 @@ function generateHexColorVariables(hexColor, color, steps = 12, darkenFactor = 1
   return cssContent;
 }
 
+function generateHex8ColorVariables(hexColor, color, steps = 12, darkenFactor = 1.2) {
+	// ${opacityValues.map((opacity, index) => `--${color}-a${index}: ${variants.HEX8};`).join('\n')}
+  const baseColor = tinycolor(hexColor);
+  let cssContent = '';
+
+  for (let i = 0; i < steps; i++) {
+    const nextColor = baseColor.darken(darkenFactor * i).toHex8String();
+    cssContent += `--${color}-a${i + 1}: ${nextColor};\n`;
+  }
+
+  return cssContent;
+}
+
 function colorVariants(colorData) {
   const variants = {};
   
   Object.entries(colorData).forEach(([color, hex]) => {
     variants[color] = {
-      "A": `rgba(${getColorInfo(hex).rgb} `,
-      "P3A": `color(display-p3 ${colorDisplay(getColorInfo(hex).rgbObject)} / `,
-      "HEX": hex,
+    	"A": `rgba(${getColorInfo(hex).rgb}`,
+    	"P3A": `color(display-p3 ${colorDisplay(getColorInfo(hex).rgbObject)}`,
+		"HEX": hex
     };
   });
 
   return variants;
 }
 
-const opacityValues = ["0.05", "0.1", "0.15", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "0.95"];
+const opacityValues = [".05", ".1", ".15", ".2", ".3", ".4", ".5", ".6", ".7", ".8", ".9", ".95"];
 
 const colorVariantsObj = colorVariants(colorData);
 
@@ -67,16 +82,23 @@ function generateAndWriteCSSFiles(colorVariants, opacityValues) {
 function generateCSSVariables(variants, opacityValues, color) {
   return `
 :root {
-${opacityValues.map((opacity, index) => `--${color}-a${index + 1}: ${variants.A},${opacity});`).join('\n')}
+${opacityValues.map((opacity, index) => `--${color}-a${index + 1}: ${variants.A}, ${opacity});`).join('\n')}
 }
 
 :root, .light, .light-theme {
+/* Hex */
 ${generateHexColorVariables(variants.HEX, color)}
+/* Hex8 */
+${generateHex8ColorVariables(variants.HEX, color)}
 }
 
 @supports (color: color(display-p3 1 1 1)) and (color-gamut: p3) {
   :root {
-${opacityValues.map((opacity, index) => `--${color}-a${index + 1}: ${variants.P3A}${opacity});`).join('\n')}
+/* Color Gamut and Display P3 */
+${opacityValues.map((opacity, index) => `--${color}${index + 1}: ${variants.P3A};`).join('\n')}
+
+/* Color Gamut and Display P3 alpha */
+${opacityValues.map((opacity, index) => `--${color}-a${index + 1}: ${variants.P3A} / ${opacity});`).join('\n')}
   }
 }
 `;
