@@ -2,16 +2,35 @@ import * as fs from "fs";
 import tinycolor from "tinycolor2";
 
 const colorData = {
-  "orange": "#f8f8f8",
+  "gray": "FFFFFF",
+  "tomato": "#FFFCFC",
+  "red": "#FFFCFC",
+	"ruby": "#FFFCFD",
+  "pink": "#FFFCFE",
+  "plum": "#FEFCFF",
+  "purple": "#FEFCFE",
+  "violet": "#FDFCFE",
+  "iris": "#FDFDFF",
+  "indigo": "#FDFDFE",
   "blue": "#FBFDFF",
-  "gray": "#FBFDFF",
-  "red": "#FFF7F7",
-	"green": "#FBFEFC",
-  "purple": "#FDF7FD"
+  "cyan": "#fafdfe",
+  "teal": "#FAFEFD",
+  "jade": "#FBFEFD",
+  "green": "#FBFEFC",
+  "grass": "#FBFEFB",
+  "bronze": "#FDFCFC",
+  "gold": "#FDFDFC",
+  "brown": "#FEFDFC",
+  "orange": "#FEFCFB",
+  "amber": "#FEFDFB",
+  "yellow": "#FFFFEE",
+  "lime": "#FCFDFA",
+  "mint": "#F9FEFD",
+  "sky": "#F9FEFF"
 };
 
 function getColorInfo(hexColor) {
-  const rgbColor = tinycolor(hexColor).toRgb();  
+  const rgbColor = tinycolor(hexColor).toRgb();
   return {
     rgb: `${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}`,
 	rgb8: tinycolor(hexColor).toHex8String(),
@@ -25,17 +44,39 @@ function colorDisplay(rgbColor) {
   return p3Color;
 }
 
-function generateHexColorVariables(hexColor, color, steps = 12, darkenFactor = 1.2) {
+/* function generateHexColorVariables(hexColor, color, steps = 12, darkenFactor = 1.1) {
   const baseColor = tinycolor(hexColor);
   let cssContent = '';
 
   for (let i = 0; i < steps; i++) {
-    const nextColor = baseColor.darken(darkenFactor * i).toHexString();
+    let factor = i === 10 ? 2 : darkenFactor;
+    const nextColor = baseColor.darken(factor * i).saturate().toHexString();
+    cssContent += `--${color}${i + 1}: ${nextColor};\n`;
+  }
+
+  return cssContent;
+} */
+
+function generateHexColorVariables(hexColor, color, steps = 12, darkenFactor = 1.1) {
+  const baseColor = tinycolor(hexColor);
+  let cssContent = '';
+
+  for (let i = 0; i < steps; i++) {
+    let modifiedColor = baseColor;
+    let factor = i === 10 ? 2 : darkenFactor;
+    if (color === 'gray') {
+      modifiedColor = baseColor.darken((factor + 0.2) * i).saturate().greyscale();
+    } else {
+      modifiedColor = baseColor.darken(factor * i).saturate();
+    }
+
+    const nextColor = modifiedColor.toHexString();
     cssContent += `--${color}${i + 1}: ${nextColor};\n`;
   }
 
   return cssContent;
 }
+
 
 function generateHex8ColorVariables(hexColor, color, steps = 12, darkenFactor = 1.2) {
 	// ${opacityValues.map((opacity, index) => `--${color}-a${index}: ${variants.HEX8};`).join('\n')}
@@ -52,7 +93,7 @@ function generateHex8ColorVariables(hexColor, color, steps = 12, darkenFactor = 
 
 function colorVariants(colorData) {
   const variants = {};
-  
+
   Object.entries(colorData).forEach(([color, hex]) => {
     variants[color] = {
     	"A": `rgba(${getColorInfo(hex).rgb}`,
@@ -95,7 +136,7 @@ ${generateHex8ColorVariables(variants.HEX, color)}
 @supports (color: color(display-p3 1 1 1)) and (color-gamut: p3) {
   :root {
 /* Color Gamut and Display P3 */
-${opacityValues.map((opacity, index) => `--${color}${index + 1}: ${variants.P3A};`).join('\n')}
+${opacityValues.map((opacity, index) => `--${color}${index + 1}: ${variants.P3A});`).join('\n')}
 
 /* Color Gamut and Display P3 alpha */
 ${opacityValues.map((opacity, index) => `--${color}-a${index + 1}: ${variants.P3A} / ${opacity});`).join('\n')}
