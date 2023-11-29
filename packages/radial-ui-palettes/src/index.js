@@ -146,7 +146,7 @@ function generateCSSVariablesP3(colorName, colorData) {
 :root {
 /* Display P3 */
 ${rootVarsP3}
-/* Display P3 Alpha*/
+/* Display P3 Alpha */
 ${rootVarsP3A}
   }
 }
