@@ -99,7 +99,7 @@ function hexToP3(hexColor) {
     parseInt(hexColor.substring(5, 7), 16) / 255
   ];
 
-  const formattedColor = `color(display-p3 ${parsedColor[0].toFixed(2)} ${parsedColor[1].toFixed(2)} ${parsedColor[2].toFixed(2)} / 1)`;
+  const formattedColor = `color(display-p3 ${parsedColor[0].toFixed(2)} ${parsedColor[1].toFixed(2)} ${parsedColor[2].toFixed(2)})`;
 
   return formattedColor;
 }
