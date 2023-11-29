@@ -39,14 +39,34 @@ function calculateModifiedColor(color, factor, index, colorName) {
 
 function generateCSSVariables(colorName, colorData) {
   const { ranges } = colorData;
-  const rootVars = generateVariables(colorName, ranges);
+  const rootVarsHex = generateVariables(colorName, ranges);
+  const rootVarsHex8 = generateVariablesHex8(colorName, ranges);
+  const rootVarsHexA = generateVariablesA(colorName, ranges);
   return `
+  :root {
 /* Hex colors */
-:root {
-${rootVars}
+${rootVarsHex}
+/* Hex 8 colors */
+${rootVarsHex8}
+/* RGBA colors */
+${rootVarsHexA}
 }
 `;
 }
+
+function generateVariablesA(colorName, colorRanges) {
+  const opacities = [0.95, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95];
+  const rootVars = colorRanges.map((color, index) => {
+    const currentColor = tinycolor(color);
+    const modifiedColor = colorName === "gray" ? currentColor.greyscale().toRgbString() : currentColor.toRgbString();
+    const alpha = opacityValues[index % opacityValues.length]; // Se usa el módulo para repetir los valores de opacidad si es necesario
+    const alphaColor = tinycolor(modifiedColor).setAlpha(alpha).toRgbString();
+    return `--${colorName}-A${index + 1}: ${alphaColor};\n`;
+  });
+
+  return rootVars.join('');
+}
+
 
 function generateVariables(colorName, colorRanges) {
   const rootVars = colorRanges.map((color, index) => {
@@ -56,17 +76,6 @@ function generateVariables(colorName, colorRanges) {
   });
 
   return rootVars.join('');
-}
-
-function generateCSSVariablesHex8(colorName, colorData) {
-  const { ranges } = colorData;
-  const rootVars = generateVariablesHex8(colorName, ranges);
-  return `
-/* Hex 8 colors */
-:root {
-${rootVars}
-}
-`;
 }
 
 function generateVariablesHex8(colorName, colorRanges) {
@@ -130,25 +139,15 @@ function generateVariablesP3A(colorName, colorRanges) {
 
 function generateCSSVariablesP3(colorName, colorData) {
   const { ranges } = colorData;
-  const rootVars = generateVariablesP3(colorName, ranges);
+  const rootVarsP3 = generateVariablesP3(colorName, ranges);
+  const rootVarsP3A = generateVariablesP3A(colorName, ranges);
   return `
+@supports (color: color(display-p3 1 1 1)) and (color-gamut: p3) {
+:root {
 /* Display P3 */
-@supports (color: color(display-p3 1 1 1)) and (color-gamut: p3) {
-:root {
-${rootVars}
-  }
-}
-`;
-}
-
-function generateCSSVariablesP3A(colorName, colorData) {
-  const { ranges } = colorData;
-  const rootVars = generateVariablesP3A(colorName, ranges);
-  return `
+${rootVarsP3}
 /* Display P3 Alpha*/
-@supports (color: color(display-p3 1 1 1)) and (color-gamut: p3) {
-:root {
-${rootVars}
+${rootVarsP3A}
   }
 }
 `;
@@ -166,9 +165,7 @@ function generateCSS(colorPalettes) {
 function combineCSSContent(colorName, colorData) {
   const cssContents = [
     generateCSSVariables(colorName, colorData),
-    generateCSSVariablesHex8(colorName, colorData),
-    generateCSSVariablesP3(colorName, colorData),
-    generateCSSVariablesP3A(colorName, colorData)
+    generateCSSVariablesP3(colorName, colorData)
   ];
   return cssContents.join("\n\n");
 }
