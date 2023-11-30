@@ -7,6 +7,7 @@
  * Date: November 23, 2023                                                    *
  ******************************************************************************
  */
+
 import fs from "fs";
 import tinycolor from "tinycolor2";
 import { colorPalettes, opacityValues } from "./colorData";

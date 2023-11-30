@@ -7,6 +7,7 @@
  * Date: November 23, 2023                                                    *
  ******************************************************************************
  */
+
 import { ColorPalettes, OpacityValues  } from "./types";
 
 export const colorPalettes: ColorPalettes = {
