@@ -1,4 +1,6 @@
-export const colorPalettes = {
+import { ColorPalettes, OpacityValues  } from "./types";
+
+export const colorPalettes: ColorPalettes = {
   gray: "FFFFFF",
   tomato: "#FFFCFC",
   red: "#FFFCFC",
@@ -24,6 +26,7 @@ export const colorPalettes = {
   lime: "#FCFDFA",
   mint: "#F9FEFD",
   sky: "#F9FEFF",
+  morado: "#f8eeff"
 };
 
-export const opacityValues = [0, 0.034, 0.071, 0.105, 0.134, 0.172, 0.231, 0.332, 0.391, 0.445, 0.685, 0.929];
+export const opacityValues: OpacityValues = [0, 0.034, 0.071, 0.105, 0.134, 0.172, 0.231, 0.332, 0.391, 0.445, 0.685, 0.929];

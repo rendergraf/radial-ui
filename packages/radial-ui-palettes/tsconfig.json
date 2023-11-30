@@ -1,11 +1,17 @@
 {
-"compilerOptions": {
-    "target": "esnext",
+  "compilerOptions": {
+    "outDir": "./dist",
     "module": "esnext",
-    "moduleResolution": "node",
+    "target": "ES2019",
+    "lib": ["esnext"],
+    "declaration": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
-  "include": ["src/**/*", "src/index.js"],
-  "exclude": ["dist", "node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
