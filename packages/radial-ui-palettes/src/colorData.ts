@@ -1,3 +1,12 @@
+/*
+ ******************************************************************************
+ * File Name: @radial-ui/palette                                              *
+ * Author: Xavier Araque xavieraraque@gmail.com                               *
+ * Description: This script generates color palettes for @radial-ui.          *
+ * Project: @radial-ui library UI for React                                   *
+ * Date: November 23, 2023                                                    *
+ ******************************************************************************
+ */
 import { ColorPalettes, OpacityValues  } from "./types";
 
 export const colorPalettes: ColorPalettes = {

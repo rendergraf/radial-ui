@@ -1,11 +1,19 @@
 {
 	"name": "@radial-ui/palette",
 	"version": "0.0.0",
+	"author": "Xavier Araque <xavieraraque@gmail.com> (https://xavieraraque.com/)",
+	"contributors": [
+    "Xavier Araque <xavieraraque@gmail.com>"
+  ],
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.ts",
 	"sideEffects": false,
 	"license": "MIT",
+	"keywords": [
+    "radial",
+    "palette"
+  ],
 	"files": [
 		"dist/**"
 	],
