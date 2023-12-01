@@ -22,7 +22,7 @@ type Story = StoryObj<typeof Button>;
  */
 export const Primary: Story = {
   render: (props) => (
-    <Button
+    <Button className="la-clase" variant="outlined" color="secondary"
       {...props}
       onClick={(): void => {
         // eslint-disable-next-line no-alert -- alert for demo
