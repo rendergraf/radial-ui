@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes , DetailedHTMLProps, MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
 import React, { forwardRef,  } from 'react';
 import type { SerializedStyles , CSSObject } from '@emotion/react';
@@ -28,6 +27,11 @@ interface ButtonPropsBase {
 interface Emotion extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'css'> {
   css?: CSSObject;
 }
+
+interface ModifiedStyles {
+  name: string;
+  styles: string;
+};
 
 type AnchorProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
 type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
@@ -87,8 +91,20 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
 
     let mergedStyles: SerializedStyles | undefined;
 
+    const withButtonPrefix = (styles: SerializedStyles): ModifiedStyles | null => {
+      if (styles.styles && styles.name) {
+        const modifiedName = `RadialUI-Button-${styles.name}`;
+        const modifiedStyles = styles.styles.replace(/(?:\.css-\w+)/g, `$&-RadialUI-Button`);
+        return {
+          name: modifiedName,
+          styles: modifiedStyles,
+        };
+      }
+      return null;
+    };
+
     if (sx) {
-      mergedStyles = css`${sx}`;
+      mergedStyles = withButtonPrefix(css`${sx}`) as SerializedStyles | undefined;;
     }
 
     if (href) {
@@ -110,7 +126,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     }
 
     const { ...buttonProps } = otherProps as Emotion & ButtonProps;
-
 
     return (
       <button

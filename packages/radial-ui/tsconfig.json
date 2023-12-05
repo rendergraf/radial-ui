@@ -4,6 +4,7 @@
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "lib": ["es2016", "dom"],
-    "types": ["@emotion/react/types/css-prop"]
+    "jsxImportSource": "@emotion/react",
+    "jsx": "react-jsx"
   }
 }
