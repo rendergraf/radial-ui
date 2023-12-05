@@ -35,7 +35,6 @@ export const Primary: Story = {
   name: "Button",
   args: {
     children: "Hello",
-    type: "button",
     style: {
       color: "blue",
       border: "1px solid gray",
