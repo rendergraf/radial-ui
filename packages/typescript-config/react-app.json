@@ -12,6 +12,7 @@
     "module": "esnext",
     "noEmit": true,
     "resolveJsonModule": true,
-    "target": "es5"
+    "target": "es5",
+    "types": ["@emotion/react/types/css-prop"]
   }
 }

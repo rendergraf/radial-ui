@@ -6,6 +6,10 @@ function getAbsolutePath(value) {
 
 const config = {
   stories: ["../stories/*.stories.tsx", "../stories/**/*.stories.tsx"],
+  typescript: {
+    check: true,
+    reactDocgen: false,
+  },
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),

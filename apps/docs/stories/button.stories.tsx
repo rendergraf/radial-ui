@@ -22,7 +22,12 @@ type Story = StoryObj<typeof Button>;
  */
 export const Primary: Story = {
   render: (props) => (
-    <Button className="cualquier-cosa" variant="text"
+    <Button className="cualquier-cosa" variant="text" sx={{
+      color: 'red',
+      display: 'inline',
+      fontWeight: 'bold',
+      fontSize: 14,
+    }}
       {...props}
       onClick={(): void => {
         // eslint-disable-next-line no-alert -- alert for demo
@@ -35,11 +40,11 @@ export const Primary: Story = {
   name: "Button",
   args: {
     children: "Hello",
-    style: {
+/*     style: {
       color: "blue",
       border: "1px solid gray",
       padding: 10,
       borderRadius: 10,
-    },
+    }, */
   },
 };

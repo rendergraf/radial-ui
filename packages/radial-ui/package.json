@@ -17,6 +17,8 @@
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
 	},
 	"devDependencies": {
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
 		"@radial-ui/palette": "workspace:*",
 		"@repo/eslint-config": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
@@ -26,8 +28,13 @@
 		"eslint-plugin-unicorn": "^49.0.0",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"tsup": "^8.0.1",
 		"typescript": "^5.3.2"
+	},
+	"peerDependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	},
 	"publishConfig": {
 		"access": "public"
