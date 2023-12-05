@@ -22,11 +22,11 @@ type Story = StoryObj<typeof Button>;
  */
 export const Primary: Story = {
   render: (props) => (
-    <Button className="la-clase" variant="outlined" color="secondary"
+    <Button className="cualquier-cosa" variant="text"
       {...props}
       onClick={(): void => {
         // eslint-disable-next-line no-alert -- alert for demo
-        alert("Hello from Turborepo!");
+        alert("sdfgsdfg!");
       }}
     >
       Hello
