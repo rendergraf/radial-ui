@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes , DetailedHTMLProps, MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
 import React, { forwardRef,  } from 'react';
-import type { SerializedStyles , CSSObject } from '@emotion/react';
+import type { SerializedStyles, CSSObject } from '@emotion/react';
 import { css } from '@emotion/react';
 
 type ButtonVariant = 'contained' | 'outlined' | 'text';
@@ -21,7 +21,7 @@ interface ButtonPropsBase {
   tabIndex?: number;
   type?: ButtonType;
   variant?: ButtonVariant;
-  sx?: any;
+  sx?: CSSObject;
 }
 
 interface Emotion extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'css'> {
@@ -48,8 +48,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
       disabled = false,
       href,
       onClick,
-      type = 'button',
-      size = 'medium',
+      type,
+      size,
       variant = 'contained',
       sx,
       ...otherProps
@@ -57,7 +57,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     ref
   ) => {
     const getButtonSize = (): string => {
-      return `RadialUI-${size || 'medium'}`;
+      return `RadialUI-${size ?? 'medium'}`;
     };
 
     const getButtonStyle = (): string => {
@@ -135,7 +135,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
         disabled={disabled}
         onClick={handleClick}
         ref={ref as MutableRefObject<HTMLButtonElement>}
-        type={type}
+        type={type ?? 'button'}
         {...buttonProps}
       >
         {children}
