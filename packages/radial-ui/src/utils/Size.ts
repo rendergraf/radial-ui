@@ -1,5 +1,5 @@
 import type { Size } from "../Types";
 
-export const getButtonSize = (size: Size): string => {
+export const getSize = (size: Size): string => {
   return `RadialUI-size-${size}`;
 };

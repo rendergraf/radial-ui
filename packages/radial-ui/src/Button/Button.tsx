@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
-import { getButtonSize, getColorStyle } from '../utils'
+import { getSize, getColorStyle } from '../utils'
 import type { Emotion } from '../Types'
 import type { ButtonPropsBase, AnchorProps, ButtonProps } from './Button.Types';
 
@@ -33,7 +33,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
   ) => {
 
     const getButtonStyle = (): string => {
-      const buttonSize = size ? getButtonSize(size) : 'RadialUI-size-medium';
+      const buttonSize = size ? getSize(size) : 'RadialUI-size-medium';
       switch (variant) {
         case 'outlined':
           return `RadialUI-button-outlined ${className} ${buttonSize}`;
@@ -73,13 +73,14 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
       mergedStyles = withButtonPrefix(css`${sx}`) as SerializedStyles | undefined;
     }
 
+    const combinedClasses = `${getButtonStyle()} ${color ? getColorStyle(color) : ''}`.trim();
+
     if (href) {
       const { type: _removedType, ...anchorProps } = otherProps as Emotion & AnchorProps;
-
       return (
         <a
           aria-label={ariaLabel}
-          className={`${getButtonStyle()} ${color ? getColorStyle(color) : ''}`}
+          className={combinedClasses}
           href={href}
           onClick={handleClick}
           {...anchorProps}
@@ -96,7 +97,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     return (
       <button
         aria-label={ariaLabel}
-        className={`${getButtonStyle()} ${color ? getColorStyle(color) : ''}`}
+        className={combinedClasses}
         {...(sx ? { css: mergedStyles } : null)}
         disabled={disabled}
         onClick={handleClick}

@@ -1,2 +1,2 @@
 export { getColorStyle } from './Colors'
-export { getButtonSize } from './Size'
+export { getSize } from './Size'
