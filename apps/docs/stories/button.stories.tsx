@@ -22,7 +22,7 @@ type Story = StoryObj<typeof Button>;
  */
 export const Primary: Story = {
   render: (props) => (
-    <Button className="cualquier-cosa" color="success" variant="text" sx={{
+    <Button aria-label="delete" className="cualquier-cosa"  color="success" variant="text" sx={{
       color: 'red',
       display: 'inline',
       fontWeight: 'bold',

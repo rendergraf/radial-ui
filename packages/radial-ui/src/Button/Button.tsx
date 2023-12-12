@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes , DetailedHTMLProps, MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
-import React, { forwardRef,  } from 'react';
+import React, { forwardRef } from 'react';
 import type { SerializedStyles, CSSObject } from '@emotion/react';
 import { css } from '@emotion/react';
 
@@ -104,7 +104,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     };
 
     if (sx) {
-      mergedStyles = withButtonPrefix(css`${sx}`) as SerializedStyles | undefined;;
+      mergedStyles = withButtonPrefix(css`${sx}`) as SerializedStyles | undefined;
     }
 
     if (href) {
@@ -117,7 +117,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
           href={href}
           onClick={handleClick}
           {...anchorProps}
-          css={mergedStyles}
+          {...(sx ? { css: mergedStyles } : null)}
           ref={ref as MutableRefObject<HTMLAnchorElement>}
         >
           {children}
@@ -131,7 +131,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
       <button
         aria-label={ariaLabel}
         className={`${getButtonStyle()} ${getColorStyle()}`}
-        css={mergedStyles}
+        {...(sx ? { css: mergedStyles } : null)}
         disabled={disabled}
         onClick={handleClick}
         ref={ref as MutableRefObject<HTMLButtonElement>}
