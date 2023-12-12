@@ -1,40 +1,15 @@
-import type { ButtonHTMLAttributes, AnchorHTMLAttributes , DetailedHTMLProps, MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
-import React, { forwardRef } from 'react';
-import type { SerializedStyles, CSSObject } from '@emotion/react';
+import { forwardRef } from 'react';
+import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
-
-type ButtonVariant = 'contained' | 'outlined' | 'text';
-type ButtonType = 'button' | 'submit' | 'reset';
-type ButtonSize = 'small' | 'medium' | 'large';
-const ButtonColorArray: string[] = ['inherit', 'primary', 'secondary', 'success', 'error', 'info', 'warning'];
-
-interface ButtonPropsBase {
-  ariaLabel?: string;
-  children: React.ReactNode;
-  color?: string;
-  disabled?: boolean;
-  href?: string;
-  'aria-disabled'?: React.AriaAttributes['aria-disabled'];
-  onClick: MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>;
-  role?: React.AriaRole;
-  size?: ButtonSize;
-  tabIndex?: number;
-  type?: ButtonType;
-  variant?: ButtonVariant;
-  sx?: CSSObject;
-}
-
-interface Emotion extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'css'> {
-  css?: CSSObject;
-}
+import type { MutableRefObject, MouseEvent, MouseEventHandler } from 'react';
+import { getButtonSize, getColorStyle } from '../utils'
+import type { Emotion } from '../Types'
+import type { ButtonPropsBase, AnchorProps, ButtonProps } from './Button.Types';
 
 interface ModifiedStyles {
   name: string;
   styles: string;
 };
-
-type AnchorProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
-type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 type Props = ButtonPropsBase & (AnchorProps | ButtonProps);
 
@@ -56,26 +31,17 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     },
     ref
   ) => {
-    const getButtonSize = (): string => {
-      return `RadialUI-${size ?? 'medium'}`;
-    };
 
     const getButtonStyle = (): string => {
+      const buttonSize = size ? getButtonSize(size) : 'RadialUI-size-medium';
       switch (variant) {
         case 'outlined':
-          return `RadialUI-button-outlined ${className} ${getButtonSize()}`;
+          return `RadialUI-button-outlined ${className} ${buttonSize}`;
         case 'text':
-          return `RadialUI-button-text ${className} ${getButtonSize()}`;
+          return `RadialUI-button-text ${className} ${buttonSize}`;
         default:
-          return `RadialUI-button ${className} ${getButtonSize()}`;
+          return `RadialUI-button ${className} ${buttonSize}`;
       }
-    };
-
-    const getColorStyle = (): string => {
-      if (typeof color === 'string' && ButtonColorArray.includes(color)) {
-        return color;
-      }
-      return 'primary';
     };
 
     const handleClick: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = (event): void => {
@@ -113,7 +79,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
       return (
         <a
           aria-label={ariaLabel}
-          className={`${getButtonStyle()} ${getColorStyle()}`}
+          className={`${getButtonStyle()} ${color ? getColorStyle(color) : ''}`}
           href={href}
           onClick={handleClick}
           {...anchorProps}
@@ -130,7 +96,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
     return (
       <button
         aria-label={ariaLabel}
-        className={`${getButtonStyle()} ${getColorStyle()}`}
+        className={`${getButtonStyle()} ${color ? getColorStyle(color) : ''}`}
         {...(sx ? { css: mergedStyles } : null)}
         disabled={disabled}
         onClick={handleClick}
